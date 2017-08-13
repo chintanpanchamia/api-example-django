@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+from auth_data import REDIRECT_URL, AUTH_DRCHRONO_KEY, AUTH_DRCHRONO_SCOPE, AUTH_DRCHRONO_SECRET
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -109,3 +110,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
 STATIC_URL = '/static/'
+
+SOCIAL_AUTH_DRCHRONO_KEY = AUTH_DRCHRONO_KEY
+SOCIAL_AUTH_DRCHRONO_SECRET = AUTH_DRCHRONO_SECRET
+SOCIAL_AUTH_DRCHRONO_SCOPE = AUTH_DRCHRONO_SCOPE
+LOGIN_REDIRECT_URL = REDIRECT_URL
+
