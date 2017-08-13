@@ -40,7 +40,6 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'kiosk',
     'social.apps.django_app.default',
-    'kiosk.apps.KioskConfig',
 )
 
 MIDDLEWARE_CLASSES = (
