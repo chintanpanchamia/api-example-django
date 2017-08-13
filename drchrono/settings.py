@@ -40,6 +40,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'drchrono',
     'social.apps.django_app.default',
+    'kiosk.apps.KioskConfig',
 )
 
 MIDDLEWARE_CLASSES = (
