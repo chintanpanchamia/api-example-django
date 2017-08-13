@@ -38,7 +38,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'drchrono',
+    'kiosk',
     'social.apps.django_app.default',
     'kiosk.apps.KioskConfig',
 )
@@ -59,7 +59,7 @@ AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
 )
 
-ROOT_URLCONF = 'drchrono.urls'
+ROOT_URLCONF = 'kiosk.urls'
 
 TEMPLATES = [
     {
@@ -79,7 +79,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'drchrono.wsgi.application'
+WSGI_APPLICATION = 'kiosk.wsgi.application'
 
 
 # Database

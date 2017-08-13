@@ -4,15 +4,15 @@ from social.backends.oauth import BaseOAuth2
 
 class drchronoOAuth2(BaseOAuth2):
     """
-    drchrono OAuth authentication backend
+    kiosk OAuth authentication backend
     """
 
-    name = 'drchrono'
-    AUTHORIZATION_URL = 'https://drchrono.com/o/authorize/'
-    ACCESS_TOKEN_URL = 'https://drchrono.com/o/token/'
+    name = 'kiosk'
+    AUTHORIZATION_URL = 'https://kiosk.com/o/authorize/'
+    ACCESS_TOKEN_URL = 'https://kiosk.com/o/token/'
     ACCESS_TOKEN_METHOD = 'POST'
     REDIRECT_STATE = False
-    USER_DATA_URL = 'https://drchrono.com/api/users/current'
+    USER_DATA_URL = 'https://kiosk.com/api/users/current'
     EXTRA_DATA = [
         ('refresh_token', 'refresh_token'),
         ('expires_in', 'expires_in')
@@ -21,7 +21,7 @@ class drchronoOAuth2(BaseOAuth2):
 
     def get_user_details(self, response):
         """
-        Return user details from drchrono account
+        Return user details from kiosk account
         """
         return {'username': response.get('username'),}
 
