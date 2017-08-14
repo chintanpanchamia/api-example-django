@@ -92,4 +92,4 @@ ENV/
 
 db.sqlite3
 *.pyc
-kioskapp/kioskapp/kiosk_auth_data.py
+kioskapp/kiosk/kiosk_auth_data.py

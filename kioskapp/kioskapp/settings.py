@@ -13,14 +13,23 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
 
+from kioskapp.kiosk.kiosk_auth_data import CLIENT_DATA, KEY
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+CLIENT = {
+    'client_id': CLIENT_DATA['client_id'],
+    'client_secret': CLIENT_DATA['client_secret'],
+    'client_scope': CLIENT_DATA['client_scope'],
+    'redirect_url': CLIENT_DATA['redirect_url']
+}
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.8/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'acpytx(!ed49h0=@g*v6td$-$@ik3)w=l*hfqzxxogk0c)s164'
+SECRET_KEY = KEY
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -37,6 +46,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'kiosk.apps.KioskConfig',
 )
 
 MIDDLEWARE_CLASSES = (
