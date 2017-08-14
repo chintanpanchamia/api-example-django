@@ -10,5 +10,7 @@ urlpatterns = [
 
     url(r'^accounts/login/$', views.login_view, name='login'),
 
+    url(),
+
 ]
 

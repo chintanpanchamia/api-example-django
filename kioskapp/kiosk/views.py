@@ -8,15 +8,15 @@ from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.models import User
 
 
-from kiosk_auth_data import CLIENT_DATA
+from kiosk_auth_data import CLIENT
 from helper import get_drchrono_user
 # Create your views here.
 
 
 def login_view(request):
     return render(request, 'generic/login.html', context={
-        'client_key': CLIENT_DATA['client_id'],
-        'redirect_url': CLIENT_DATA['redirect_url']
+        'client_id': CLIENT['client_id'],
+        'redirect_uri': CLIENT['redirect_uri']
     })
 
 
