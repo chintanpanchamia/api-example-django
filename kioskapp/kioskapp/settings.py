@@ -12,18 +12,9 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
-
-from kioskapp.kiosk.kiosk_auth_data import CLIENT_DATA, KEY
+from kioskapp.kiosk.kiosk_auth_data import KEY
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
-CLIENT = {
-    'client_id': CLIENT_DATA['client_id'],
-    'client_secret': CLIENT_DATA['client_secret'],
-    'client_scope': CLIENT_DATA['client_scope'],
-    'redirect_url': CLIENT_DATA['redirect_url']
-}
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.8/howto/deployment/checklist/
