@@ -14,7 +14,7 @@ class Doctor(models.Model):
     last_name = models.CharField(max_length=128)
     token = models.CharField(max_length=256)
     current_patient_id = models.IntegerField(null=True, blank=True)
-    kiosk_code = models.IntegerField()
+    kiosk_code = models.CharField(max_length=6, blank=True)
 
     def set_random_password(self):
         user = self.user

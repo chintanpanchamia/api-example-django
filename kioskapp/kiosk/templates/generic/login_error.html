@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="center-text">
+    <h1>Incorrect Login</h1>
+
+    <p>
+        Don't panic, everything will be okay! You can always
+        <a href="{% url 'kiosk:login' %}">
+            return to the sign in page and try again.
+        </a>
+    </p>
+
+    <div id="login-button">
+        <a href="{% url 'kiosk:login' %}">
+            <button type="button" name="button">
+                <i class="fa fa-arrow-circle-left fa-lg"></i> Back to sign in page
+            </button>
+        </a>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,417 @@
+/*drchrono green #41A528*/
+
+body {
+  background-color: #f5f5f5;
+  font-family: sans-serif;
+}
+
+
+.email-panel {
+padding: 10%;
+}
+
+
+/*NAVBAR CSS*/
+
+.navbar-default {
+    background-color: #FFF;
+    border: none;
+    height: 50px;
+    color: #41A528;
+}
+
+.navbar-brand {
+padding-top:7px;
+}
+
+.navbar-default .navbar-nav {
+    color: #41A528;
+    font-weight: 200;
+    font-size: 1em;
+}
+.navbar-default .navbar-nav:hover, .navbar-default .navbar-nav:focus {
+    color: white;
+}
+
+.navbar-default .navbar-nav li a {
+    color: #41A528;
+    font-weight: 200;
+    margin: 0 0.25em;
+}
+
+.navbar-default .navbar-nav li a:hover, .navbar-default .navbar-nav li a:focus {
+    color: white;
+    background-color: #41A528;
+    box-shadow: none;
+}
+.navbar-default .navbar-nav .active a, .navbar-default .navbar-nav .active a:hover, .navbar-default .navbar-nav .active a:focus {
+    color: white;
+    background-color: black;
+    box-shadow: none;
+}
+
+.navbar-toggle{
+    border-radius: 0;
+}
+.navbar-collapse {
+    background: #FFF;
+    border: none;
+    box-shadow: none;
+}
+.navbar-default .navbar-toggle {
+    border-color: black;
+}
+.navbar-default .navbar-toggle:hover {
+    background-color: black;
+    /*border-color: white;*/
+}
+.navbar-default .navbar-toggle:focus {
+    background-color: black;
+}
+
+.navbar-default .navbar-toggle:focus .icon-bar {
+    background-color: white;
+}
+.navbar-default .navbar-toggle .icon-bar {
+    background-color: black;
+}
+
+.navbar-default .navbar-toggle:hover .icon-bar {
+    background-color: white;
+}
+
+@media (max-width: 767px) {
+    .navbar-default .navbar-nav .open .dropdown-menu > li > a {
+        color: black;
+    }
+    .navbar-default .navbar-nav .open .dropdown-menu > li > a:hover, .navbar-default .navbar-nav .open .dropdown-menu > li > a:focus {
+        color: white;
+        background-color: black;
+    }
+}
+
+/*END OF NAVBAR*/
+
+
+
+
+
+
+
+/*GENERIC CSS*/
+.container.main {
+   margin-top: 75px;
+}
+
+.display-none {
+  display: none;
+}
+
+.app-color {
+  color: #41A528;
+}
+
+button {
+  color: #fff;
+  padding: 5px 15px;
+  font-size: 15px;
+  cursor: pointer;
+  border-width: 0px;
+  opacity: 0.8;
+}
+
+button:hover {
+  opacity: 1.0;
+  box-shadow: 0px 0px 3px #808080;
+}
+
+/*login page*/
+
+
+
+.app-title {
+  font-size: 3em;
+  font-weight: 200;
+  text-align: center;
+}
+
+
+#login-button {
+  width: 185px;
+  margin: auto;
+}
+
+
+.login-button {
+
+  color: #f5f5f5;
+  margin: 15px auto;
+  background-color: #4FA025;
+  border: 1px solid #4FA025;
+  opacity: 0.8;
+}
+
+#demo-button .login-button {
+  background-color: #4FA025;
+  border: 1px solid #4FA025;
+}
+
+.login-button:hover {
+  color: #fff;
+  border: 1px solid #006400;
+  opacity: 1.0;
+  box-shadow: 0px 0px 3px #000;
+}
+
+#demo-button .login-button:hover {
+  border: 1px solid darkgreen;
+}
+
+.about-app {
+  margin: 15% auto;
+}
+
+
+
+/*home page*/
+#nameplate {
+  margin: 30px auto;
+  font-size: 2em;
+}
+
+#username {
+  font-size: 0.5em;
+}
+
+/*patients list*/
+.patient-update {
+  margin: 30px auto;
+}
+
+.patient-update a {
+  width: 15%;
+  padding: 10px;
+  color: #FFF;
+  background: #41A528;
+  text-align: center;
+}
+
+
+.patient-update > a:hover {
+  background: #000;
+  text-decoration: none;
+}
+
+.patient-update > a:focus, .patient-update > a:active {
+  background: #41A528;
+  text-decoration: none;
+}
+
+.search-panel {
+    margin: 30px auto;
+}
+
+#search-bar {
+
+  width: 300px;
+  height: 20px;
+  font-size: 14px;
+  margin-bottom: 3px;
+  border-radius: 3px;
+  border: 1px solid #ccc;
+  padding: 3px 10px;
+}
+
+#patient-table {
+  padding-top: 5px;
+  border-radius: 3px;
+  display: block;
+  font-size: 20px;
+  margin-bottom: 2px;
+  margin-top: 10px;
+  background-color: #696f7d;
+  color: #fff;
+  padding-left: 5px;
+  /*border: 1px solid #474B54;*/
+}
+
+#patient-list {
+  overflow-y: scroll;
+  max-height: 70%;
+  border-top: 1px solid #D3D3D3;
+  border-radius: 0px 0px 3px 3px;
+}
+
+#patient-table-head {
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-right: 15px;
+  border-radius: 3px 3px 0px 0px;
+}
+
+.table-content {
+  background-color: #fff;
+  padding: 0 20px;
+  text-align: justify;
+  box-shadow: 0 0px 2px rgba(0,0,0,.2);
+}
+
+.patient {
+  border-bottom: 1px solid #f5f5f5;
+  padding: 2px 0px;
+}
+
+.patient-col {
+  display:inline-block;
+  word-wrap: break-word;
+}
+
+.col-last-name {
+  width: 20%;
+  padding-left: 10px;
+}
+
+.col-first-name {
+  width: 18%;
+}
+
+.col-email {
+  width: 30%;
+}
+
+.col-birthday {
+  width: 15%;
+}
+
+.col-send-check {
+  width: 8%;
+}
+
+.send-checkbox {
+  position: relative;
+  left: 30%;
+  bottom: 2px;
+}
+
+.changed {
+  background-color: #ADD8E6;
+}
+
+/*edit email page*/
+#email-description {
+  font-size: 13px;
+}
+
+#email-subject-input {
+  margin-bottom: 25px;
+  margin-top: 10px;
+}
+
+.email-input {
+  width: 75%;
+  max-width: 700px;
+  font-size: 15px;
+  border: 0px;
+  box-shadow: 0 1px 1px #ccc;
+  padding: 10px;
+}
+
+/*save buttons and save results*/
+.button-panel {
+    margin: 30px 0;
+}
+
+#email-all-button, #email-none-button, #save-changes-button {
+  width: 180px;
+  height: 50px;
+  margin-right: 10px;
+}
+
+#email-all-button {
+  background-color: #459420;
+}
+
+#email-none-button {
+  background-color: #B22222;
+}
+
+.save-button {
+  background-color: #0769AD;
+}
+
+.save-button[disabled] {
+  cursor: not-allowed;
+  color: #B5B5B5;
+  background-color: #808080;
+  opacity: 0.2;
+}
+
+.save-button[disabled]:hover {
+  box-shadow: 0px 0px 0px #000;
+}
+
+.center-screen {
+  position: absolute;
+  z-index: 1000;
+  left: 0;
+  right: 0;
+}
+
+#save-guard {
+  width: 100%;
+  height: 100%;
+  top: 0;
+}
+
+#save-guard.loading-guard {
+  background-color: #D3D3D3;
+  opacity: 0.9;
+}
+
+
+
+
+
+#save-success {
+  background-color: #fcf8e3;
+  border: 1px solid #faebcc;
+}
+
+#save-success {
+  background-color: #fcf8e3;
+  border: 1px solid #faebcc;
+}
+
+#save-fail {
+  background-color: #A21515;
+  border: 1px solid #790F0F;
+  color: #fff;
+}
+
+.save-result {
+  position: fixed;
+  left: 0;
+  right: 0;
+  text-align: center;
+  top: 75px;
+  padding: 15px 0px;
+  font-size: 30px;
+  opacity: 0.0;
+  transition: opacity 0.5s;
+}
+
+.save-result-fade {
+  opacity: 1;
+  transition: opacity 0.5s;
+}
+
+
+
+/*responsive*/
+@media (max-width: 767px) {
+
+
+  .email-input {
+    width: 100%;
+  }
+}

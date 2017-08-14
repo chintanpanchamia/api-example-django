@@ -10,7 +10,7 @@ def get_drchrono_user(request_params):
     access_token = exchange_token(request_params)
     doctor = get_doctor_data(access_token)
     user = save_user(doctor, access_token)
-    get_my_patients(user, access_token)
+    # get_my_patients(user, access_token)
     return user
 
 
@@ -22,7 +22,7 @@ def exchange_token(request_params):
     if 'error' in request_params:
         raise ValueError('Error authorizing application: %s' % request_params['error'])
 
-    response = requests.post('http://www.drchrono.com/o/token/', {
+    response = requests.post('https://drchrono.com/o/token/', {
         'code': request_params['code'],
         'grant_type': 'authorization_code',
         'redirect_uri': CLIENT['redirect_uri'],
@@ -65,7 +65,7 @@ def get_drchrono_data(endpoint, header):
     :param header:
     :return: json formatted data received from the API when hitting the endpoint
     """
-    response = requests.get(('http://wwww.drchrono.com/api%s' % endpoint), header=header)
+    response = requests.get(('https://drchrono.com/api/%s' % endpoint), headers=header)
     response.raise_for_status()
     return response.json()
 
@@ -79,3 +79,5 @@ def save_user(doctor, access_token):
     )
 
     doctor = Doctor(user=user, token=access_token)
+    doctor.save()
+    return user

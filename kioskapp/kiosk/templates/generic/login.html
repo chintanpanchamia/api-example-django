@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load staticfiles %}
+
+
+<div class="row">
+    <div class="col-md-6 about-app">
+        <div class="app-title">
+            Birthday<br>
+            Calendar
+        </div>
+        <div id="login-button">
+            <a href="https://drchrono.com/o/authorize/?redirect_uri={{redirect_uri}}&response_type=code&client_id={{client_id}}&scope={{scope}}">
+                <button class="login-button" type="button" name="button">
+                    <i class="fa fa-sign-in fa-lg"></i> Login with drchrono
+                </button>
+            </a>
+        </div>
+
+    </div>
+    <div class="col-md-6 about-app">
+        <p>
+            Introducing the Birthday Calendar app for DrChrono users. This app lets you manage a calendar for
+            wishing your patients on their birthdays. It lets you do the following:
+        </p>
+
+        <ul>
+            <li>Import relevant patient information straight from your drchrono account</li>
+            <li>Send emails to patients on their birthdays at the click of a button</li>
+            <li>Customize the template for wishing your patients</li>
+        </ul>
+    </div>
+</div>
+
+{% endblock %}
