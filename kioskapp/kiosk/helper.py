@@ -113,6 +113,26 @@ def get_offices(doctor, access_token):
     save_offices(offices, doctor)
 
 
+def verify_patient(form_data):
+    first_name = form_data['first_name']
+    last_name = form_data['last_name']
+    social_security_number = form_data['social_security_number']
+
+    try:
+        patient = Patient.objects.get(first_name=first_name, last_name=last_name,
+                                      social_security_number=social_security_number)
+    except Patient.DoesNotExist:
+        return 1
+
+    try:
+        appointment = Appointment.objects.get(patient=patient)
+    except Appointment.DoesNotExist:
+        return 2
+
+    return 0
+
+
+
 def get_appointments(doctor, office, access_token):
     """
 
@@ -139,7 +159,7 @@ def save_appointments(appointments):
             duration=appt['duration'],
             doctor=Doctor.objects.get(pk=appt['doctor']),
             patient=Patient.objects.get(pk=appt['patient']),
-            office=Office.objects.ge(pk=appt['office']),
+            office=Office.objects.get(pk=appt['office']),
             exam_room=appt['exam_room'],
             reason=appt['reason'],
             status=appt['status'],

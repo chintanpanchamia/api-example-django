@@ -18,6 +18,10 @@ urlpatterns = [
 
     url(r'^checkin/$', login_required(views.checkin_view), name='checkin_view'),
 
+    url(r'^checkin/?(?P<message>[a-z]+)?/?$', login_required(views.checkin_view), name='checkin_view'),
+
+    url(r'^demographics/$', login_required(views.DemographicView.as_view()), name='demographic_view')
+
     # url(r'^patients-list/$', login_required(views.patients_list), name='patients_view'),
 ]
 
