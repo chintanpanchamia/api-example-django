@@ -9,7 +9,7 @@ from django.contrib.auth.models import User
 from django.utils.http import urlquote
 from kiosk_auth_data import CLIENT
 
-from helper import get_drchrono_user
+from helper import get_drchrono_user, get_appointments
 from models import Appointment, Doctor, Patient, Office
 # Create your views here.
 
@@ -55,7 +55,26 @@ def logout_view(request):
 
 
 def setup_kiosk(request):
+    doctor = request.user.doctor
     offices = Office.objects.all()
-    return render(request, 'setup_kiosk.html')
+    return render(request, 'setup_kiosk.html', context={
+        'offices': offices,
+        'doctor': doctor,
+    })
+
 
 # def patients_list(request):
+
+
+def office_view(request, office_id):
+    # print 'HEY! ' + office_id
+    doctor = request.user.doctor
+    get_appointments(doctor, office_id, doctor.token)
+    appt = Appointment.objects.all()
+    for a in appt:
+        print a
+    return redirect('kiosk:checkin_view')
+
+
+def checkin_view(request):
+    return render(request, 'checkin.html')

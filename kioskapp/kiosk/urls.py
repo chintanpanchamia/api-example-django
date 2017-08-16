@@ -14,6 +14,10 @@ urlpatterns = [
 
     url(r'^setup-kiosk/$', login_required(views.setup_kiosk), name='setup_view'),
 
+    url(r'^office/(?P<office_id>[0-9]+)/$', login_required(views.office_view), name='office_view'),
+
+    url(r'^checkin/$', login_required(views.checkin_view), name='checkin_view'),
+
     # url(r'^patients-list/$', login_required(views.patients_list), name='patients_view'),
 ]
 

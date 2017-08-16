@@ -88,7 +88,7 @@ class Appointment(models.Model):
     in_room_time = models.DateTimeField(blank=True, null=True)
 
     def __str__(self):
-        return self.scheduled_time
+        return ', '.join((str(self.scheduled_time), self.patient.last_name, self.patient.first_name))
 
     class Meta:
         ordering = ['scheduled_time']

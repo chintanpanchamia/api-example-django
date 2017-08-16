@@ -3,6 +3,47 @@
 
 <body>
 {% block content %}
-    Hey there!
+
+    <div class="col-md-offset-3 col-md-6 offices">
+        <div id="nameplate">
+            Select an Office
+        </div>
+
+        {% for office in offices %}
+            <div class="jumbotron">
+                <div class="office">
+                    <h3>Office {{ forloop.counter }}</h3>
+                    <table class="table table-striped">
+                        <tr>
+                            <th>ID</th>
+                            <td>{{ office.id }}</td>
+                        </tr>
+                        <tr>
+                            <th>Office Address</th>
+                            <td>{{ office.address }}</td>
+                        </tr>
+                        <tr>
+                            <th>State</th>
+                            <td>{{ office.state }}</td>
+                        </tr>
+                        <tr>
+                            <th>Country</th>
+                            <td>{{ office.country }}</td>
+                        </tr>
+                        {% if office.address %}
+                            <tr>
+                                <th>Address</th>
+                                <td>{{ office.address }}</td>
+                            </tr>
+                        {% endif %}
+                    </table>
+                </div>
+                <a href="{% url 'kiosk:office_view' office.id %}" class="btn btn-primary office_setup">Setup Kiosk</a>
+            </div>
+
+        {% endfor %}
+
+    </div>
+
 {% endblock %}
 </body>

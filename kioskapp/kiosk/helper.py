@@ -1,17 +1,22 @@
 # __author__ = 'chintanpanchamia'
 from django.contrib.auth.models import User
 from kiosk_auth_data import CLIENT
-import requests
+import requests, datetime
 from models import Doctor, Patient, Appointment, Office
 
 
 def get_drchrono_user(request_params):
+    """
+
+    :param request_params:
+    :return: user object for performing doctor operations
+    """
     access_token = exchange_token(request_params)
     doctor = get_doctor_data(access_token)
     doc, user = save_user(doctor, access_token)
     get_my_patients(doc, access_token)
     get_offices(doc, access_token)
-    # get_appointments(user, access_token)
+    # get_appointments(doc, access_token)
     return user
 
 
@@ -72,6 +77,12 @@ def get_drchrono_data(endpoint, header):
 
 
 def save_user(doctor, access_token):
+    """
+
+    :param doctor:
+    :param access_token:
+    :return: saved user and doctor objects which can be used for performing operations
+    """
     user = User.objects.create_user(
         id=doctor['id'],
         username=doctor['username'],
@@ -90,19 +101,62 @@ def save_user(doctor, access_token):
     return doctor, user
 
 
-def get_offices(user, access_token):
+def get_offices(doctor, access_token):
+    """
+
+    :param doctor:
+    :param access_token:
+    Saves data about offices associated with a particular doctor, to be used when setting up kiosk
+    """
     office_endpoint = 'offices'
     offices = get_paginated_data(office_endpoint, access_token)
-    save_offices(offices, user)
+    save_offices(offices, doctor)
 
 
-def get_appointments(user, access_token):
-    appointments_endpoint = 'appointments'
+def get_appointments(doctor, office, access_token):
+    """
+
+    :param doctor:
+    :param office:
+    :param access_token:
+    Get Appointment object data by hitting the appropriate endpoint, after selecting the office
+    """
+    date = datetime.date.today().strftime('%Y-%m-%d')
+    appointments_endpoint = 'appointments?doctor={0}&office={1}&date={2}'.format(str(doctor), str(office), date)
     appointments = get_paginated_data(appointments_endpoint, access_token)
     save_appointments(appointments)
 
 
+def save_appointments(appointments):
+    """
+
+    :param appointments:
+    Saves Appointment
+    """
+    for appt in appointments:
+        appointment = Appointment(
+            id=appt['id'],
+            duration=appt['duration'],
+            doctor=Doctor.objects.get(pk=appt['doctor']),
+            patient=Patient.objects.get(pk=appt['patient']),
+            office=Office.objects.ge(pk=appt['office']),
+            exam_room=appt['exam_room'],
+            reason=appt['reason'],
+            status=appt['status'],
+            deleted_flag=appt['deleted_flag'],
+            scheduled_time=appt['scheduled_time'],
+        )
+        print appointment
+        appointment.save()
+
+
 def save_offices(offices, doctor):
+    """
+
+    :param offices:
+    :param doctor:
+    save Office object data to local database
+    """
     for office_data in offices:
         office = Office(
             id=office_data['id'],
@@ -118,6 +172,12 @@ def save_offices(offices, doctor):
 
 
 def get_my_patients(doctor, access_token):
+    """
+
+    :param doctor:
+    :param access_token:
+    Get patients data by hitting the appropriate endpoint
+    """
     patients_endpoint = 'patients'
     patients = get_paginated_data(patients_endpoint, access_token)
 
@@ -126,6 +186,12 @@ def get_my_patients(doctor, access_token):
 
 
 def save_patient(patient_data, user):
+    """
+
+    :param patient_data:
+    :param user:
+    Save patient data to local database to provide quicker access when editing demographics
+    """
     patient = Patient(
         id=patient_data['id'],
         doctor=user,
@@ -159,6 +225,12 @@ def save_patient(patient_data, user):
 
 
 def get_paginated_data(endpoint, access_token):
+    """
+
+    :param endpoint:
+    :param access_token:
+    :return: data_object list (depending on the kind of objects requested
+    """
     url = 'https://drchrono.com/api/%s' % endpoint
     header = {'Authorization': 'Bearer %s' % access_token}
     data_objects = []
