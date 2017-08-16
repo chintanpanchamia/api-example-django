@@ -10,12 +10,15 @@ from django.utils.http import urlquote
 from kiosk_auth_data import CLIENT
 
 from helper import get_drchrono_user
+from models import Appointment, Doctor, Patient, Office
 # Create your views here.
 
 
 def index_view(request):
+    doctor = request.user.doctor
     return render(request, 'index.html', context={
-        'username': request.user.username
+        'username': request.user.username,
+        'doctor': doctor,
     })
 
 
@@ -39,7 +42,7 @@ def oauth_view(request):
         )
 
         login(request, authentication)
-        return redirect('kiosk:index')
+        return redirect('kiosk:index_view')
 
 
 def login_error_view(request):
@@ -48,4 +51,11 @@ def login_error_view(request):
 
 def logout_view(request):
     logout(request)
-    return redirect('kiosk:login')
+    return redirect('kiosk:login_view')
+
+
+def setup_kiosk(request):
+    offices = Office.objects.all()
+    return render(request, 'setup_kiosk.html')
+
+# def patients_list(request):

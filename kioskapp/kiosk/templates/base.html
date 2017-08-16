@@ -16,7 +16,7 @@
     <nav class="navbar navbar-default navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
-                <a class="navbar-brand" rel="home" href="https://drchrono.com/dashboard/" title="DrChrono"><img
+                <a class="navbar-brand" rel="home" target="_blank" href="https://drchrono.com/dashboard/" title="DrChrono"><img
              src="{% static 'images/logo-dark.svg' %}"></a>
                 <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
                     <span class="sr-only">Toggle navigation</span>
@@ -27,9 +27,9 @@
             </div>
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="{% url 'kiosk:index' %}">Patients</a></li>
+                    <li><a href="{% url 'kiosk:index_view' %}">Patients</a></li>
 
-                    <li><a href="{% url 'kiosk:logout' %}"><!--put logout/power symbol-->Logout</a></li>
+                    <li><a href="{% url 'kiosk:logout_view' %}"><!--put logout/power symbol-->Logout</a></li>
                 </ul>
             </div>
         </div>

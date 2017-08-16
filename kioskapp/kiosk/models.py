@@ -10,8 +10,8 @@ from django.contrib.auth.models import User
 
 class Doctor(models.Model):
     user = models.OneToOneField(User, primary_key=True)
-    first_name = models.CharField(max_length=128)
-    last_name = models.CharField(max_length=128)
+    first_name = models.CharField(max_length=50, default='')
+    last_name = models.CharField(max_length=50, default='')
     token = models.CharField(max_length=256)
     current_patient_id = models.IntegerField(null=True, blank=True)
     kiosk_code = models.CharField(max_length=6, blank=True)
@@ -59,3 +59,40 @@ class Patient(models.Model):
 
     def __str__(self):
         return '{0}, {1}'.format(self.last_name, self.first_name)
+
+
+class Office(models.Model):
+    doctor = models.ForeignKey(Doctor)
+    country = models.CharField(max_length=20)
+    state = models.CharField(max_length=20)
+    city = models.CharField(max_length=20)
+    address = models.CharField(max_length=50)
+    zip_code = models.CharField(max_length=6)
+
+    def __str__(self):
+
+        return ', '.join((self.address, self.city, ' '.join((self.state, self.zip_code)), self.country))
+
+
+class Appointment(models.Model):
+    duration = models.IntegerField()
+    doctor = models.ForeignKey(Doctor)
+    patient = models.ForeignKey(Patient)
+    office = models.ForeignKey(Office)
+    exam_room = models.IntegerField()
+    reason = models.CharField(max_length=1000, blank=True)
+    status = models.CharField(max_length=20, null=True)
+    deleted_flag = models.BooleanField()
+    scheduled_time = models.DateTimeField()
+    # some extra fields for arrival and called in time information
+    in_room_time = models.DateTimeField(blank=True, null=True)
+
+    def __str__(self):
+        return self.scheduled_time
+
+    class Meta:
+        ordering = ['scheduled_time']
+
+
+
+
