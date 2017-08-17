@@ -53,6 +53,7 @@ def login_error_view(request):
 
 
 def logout_view(request):
+    Appointment.objects.all().delete()
     logout(request)
     return redirect('kiosk:login_view')
 
@@ -72,12 +73,14 @@ def setup_kiosk(request):
 def office_view(request, office_id):
     doctor = request.user.doctor
     get_appointments(doctor, office_id, doctor.token)
+    for appt in Appointment.objects.all():
+        print str(appt)
     return redirect('kiosk:checkin_view')
 
 
-def checkin_view(request, message=''):
+def checkin_view(request):
     checkin_form = CheckinForm(request.POST or None)
-    context = {'form': checkin_form, 'message': message}
+    context = {'form': checkin_form}
 
     if checkin_form.is_valid():
         first_name = checkin_form.cleaned_data['first_name']
@@ -88,8 +91,11 @@ def checkin_view(request, message=''):
         result = verify_patient(form_data)
 
         if result == 0:
-            request['patient'] = Patient.objects.get(social_security_number=social_security_number)
-            return redirect(request, 'kiosk:demographic_view')
+            p = Patient.objects.get(social_security_number=social_security_number)
+            print p.id
+            request.session['p_id'] = {'patient_id': p.id}
+
+            return redirect('kiosk:demographic_init')
 
         if result == 1:
             context['message'] = 'Sorry, we couldn\'t find you! Please try again.'
@@ -106,22 +112,30 @@ def checkin_view(request, message=''):
 #
 #     if demographic_form.is_valid():
 
+def demographic_init(request):
+    pid = request.session['p_id']['patient_id']
+    context = {
+        'patient': Patient.objects.get(pk=pid)
+    }
+    return render(request, 'demographic.html', context)
+
+
 class DemographicView(generic.DetailView):
     model = Patient
     form_class = DemographicForm
 
-    def post(self, request, **kwargs):
+    def post_local(self, request, **kwargs):
         if request.POST['_method'] == 'PATCH':
-            patient = get_object_or_404(Patient, pk=kwargs['pk'])
+            patient = get_object_or_404(Patient, pk=kwargs['patient_id'])
             form = self.form_class(request.POST, instance=patient)
             if form.is_valid():
                 form.save()
                 self.post_drchrono(request, kwargs['pk'])
                 messages.success(request, 'Save Successful')
-                return redirect('kiosk:checkin_view')
             else:
                 messages.success(request, 'Save Failed')
-                return redirect('kiosk:demographic_view')
+
+            return redirect('kiosk:demographic_view')
 
     def post_drchrono(self, request, patient_id):
         url = 'https://drchrono.com/api/patients/%s' % patient_id
@@ -133,3 +147,6 @@ class DemographicView(generic.DetailView):
         response.raise_for_status()
 
 
+# for updating status of the closest appointment of the said patient
+def mark_checked_in(request):
+    return request

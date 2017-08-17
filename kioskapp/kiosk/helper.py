@@ -125,12 +125,11 @@ def verify_patient(form_data):
         return 1
 
     try:
-        appointment = Appointment.objects.get(patient=patient)
+        appointment = Appointment.objects.get(patient=patient, status='')
     except Appointment.DoesNotExist:
         return 2
 
     return 0
-
 
 
 def get_appointments(doctor, office, access_token):

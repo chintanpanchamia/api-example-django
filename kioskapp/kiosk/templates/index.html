@@ -2,9 +2,13 @@
 {% block content %}
 
 
-    <div class="option-panel">
-        <a href="{% url 'kiosk:setup_view' %}">Setup kiosk</a>
-        <a href="">Appointments</a>
+    <div class="row option-panel">
+        <div class="col-md-offset-2 col-md-4">
+            <a href="{% url 'kiosk:setup_view' %}"><i class="fa fa-user-circle"></i><br>Setup Kiosk</a>
+        </div>
+        <div class="col-md-4">
+            <a href=""><i class="fa fa-calendar-check-o"></i><br>Appointments</a>
+        </div>
     </div>
 
 {% endblock %}

@@ -3,6 +3,19 @@
   listenForEmailUpdate();
 })();
 
+var placeholder = "";
+
+function myBlur(e) {
+    e.placeholder = placeholder;
+}
+
+function myFocus(e) {
+    placeholder = e.placeholder;
+    e.placeholder = "";
+}
+
+
+
 function listenForPatientUpdate() {
 
   $('#patient-list').on('change', '.send-checkbox', markUserForUpdate);
