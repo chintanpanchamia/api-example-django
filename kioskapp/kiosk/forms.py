@@ -27,3 +27,4 @@ class DemographicForm(forms.ModelForm):
         model = Patient
         exclude = ['first_name', 'middle_name', 'last_name', 'social_security_number', 'doctor']
 
+# class DemographicForm(forms.Form):

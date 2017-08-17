@@ -10,8 +10,9 @@ from django.contrib.auth.models import User
 from django.utils.http import urlquote
 from kiosk_auth_data import CLIENT
 import requests
+from datetime import datetime
 
-from helper import get_drchrono_user, get_appointments, verify_patient
+from helper import get_drchrono_user, get_appointments, verify_patient, patch_appointment
 from models import Appointment, Doctor, Patient, Office
 from forms import CheckinForm, DemographicForm
 # Create your views here.
@@ -53,7 +54,7 @@ def login_error_view(request):
 
 
 def logout_view(request):
-    Appointment.objects.all().delete()
+    # Appointment.objects.all().delete()
     logout(request)
     return redirect('kiosk:login_view')
 
@@ -67,7 +68,29 @@ def setup_kiosk(request):
     })
 
 
-# def patients_list(request):
+def appointments_list_view(request):
+    appointments = Appointment.objects.all()
+    current_time = datetime.now()
+    total_wait_time = 0
+    count_appointments = 0
+    average_wait_time = 0
+
+    averaging_appointments = appointments.filter(status='Complete')
+    for appointment in averaging_appointments:
+        wait_time = appointment.in_room_time - appointment.scheduled_time
+        total_wait_time += wait_time.total_seconds()/60
+        count_appointments += 1
+
+    if count_appointments > 0:
+        average_wait_time = total_wait_time/count_appointments
+
+    context = {
+        'appointments': appointments,
+        'current_time': current_time,
+        'average_wait_time': average_wait_time,
+    }
+
+    return render(request, 'appointment_list.html', context)
 
 
 def office_view(request, office_id):
@@ -94,7 +117,6 @@ def checkin_view(request):
             p = Patient.objects.get(social_security_number=social_security_number)
             print p.id
             request.session['p_id'] = {'patient_id': p.id}
-
             return redirect('kiosk:demographic_init')
 
         if result == 1:
@@ -105,12 +127,6 @@ def checkin_view(request):
 
     return render(request, 'checkin.html', context)
 
-
-# def demographic_view(request):
-#     patient = request['patient']
-#     demographic_form = DemographicForm(data=request.POST or None, initial=patient)
-#
-#     if demographic_form.is_valid():
 
 def demographic_init(request):
     pid = request.session['p_id']['patient_id']
@@ -124,29 +140,67 @@ class DemographicView(generic.DetailView):
     model = Patient
     form_class = DemographicForm
 
-    def post_local(self, request, **kwargs):
+    def post(self, request, **kwargs):
         if request.POST['_method'] == 'PATCH':
             patient = get_object_or_404(Patient, pk=kwargs['patient_id'])
             form = self.form_class(request.POST, instance=patient)
             if form.is_valid():
                 form.save()
-                self.post_drchrono(request, kwargs['pk'])
+                self.post_drchrono(request, kwargs['patient_id'])
                 messages.success(request, 'Save Successful')
             else:
                 messages.success(request, 'Save Failed')
 
-            return redirect('kiosk:demographic_view')
+            return redirect('kiosk:demographic_init')
 
     def post_drchrono(self, request, patient_id):
         url = 'https://drchrono.com/api/patients/%s' % patient_id
         token = request.user.doctor.token
         header = {'Authorization': 'Bearer %s' % token}
+        # print request.POST, '\n\n'
+        temp = dict(request.POST.iterlists())
+        temp.pop('csrfmiddlewaretoken')
         response = requests.patch(
-            url=url, data=request.POST, headers=header
+            url=url, data=temp, headers=header
         )
-        response.raise_for_status()
+        print response
+        try:
+            response.raise_for_status()
+        except:
+            return
 
 
 # for updating status of the closest appointment of the said patient
 def mark_checked_in(request):
-    return request
+    patient_id = request.session['p_id']['patient_id']
+    checked_in_patient_appointments = Appointment.objects.filter(patient=patient_id)
+    appointment = checked_in_patient_appointments[0]
+    status = 'Arrived'
+    appointment.status = status
+    appointment.save()
+
+    patch_appointment(request, appointment.id, status)
+
+    return redirect('kiosk:checkin_view')
+
+
+def mark_completed_view(request, appointment_id):
+    current_appointment = Appointment.objects.get(id=appointment_id)
+    status = 'Complete'
+    current_appointment.status = status
+    current_appointment.save()
+
+    patch_appointment(request, appointment_id, status)
+
+    return redirect('kiosk:appointments_list_view')
+
+
+def call_in_view(request, appointment_id):
+    appointment = Appointment.objects.get(id=appointment_id)
+    status = 'In Session'
+    appointment.status = status
+    appointment.save()
+    appointment.in_room_time = datetime.now()
+    patch_appointment(request, appointment_id, status)
+
+    return redirect('kiosk:appointments_list_view')

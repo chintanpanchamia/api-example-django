@@ -263,3 +263,22 @@ def get_paginated_data(endpoint, access_token):
         url = data['next']
 
     return data_objects
+
+
+def patch_appointment(request, a_id, status):
+    """
+    :param request:
+    :param a_id:
+    :param status:
+    For patching appointment status to DrChrono API
+    """
+    url = 'https://drchrono.com/api/appointments/%s' % a_id
+    token = request.user.doctor.token
+    header = {'Authorization': 'Bearer %s' % token}
+    requests.patch(
+        url=url,
+        headers=header,
+        data={
+            'status': status
+        }
+    )

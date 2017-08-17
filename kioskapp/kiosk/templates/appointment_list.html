@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <div class="col-md-offset-2 col-md-8">
+        {% if appointments|length > 0 %}
+        <h2>Today's Appointments <span class="current_time"> {{current_time.date}}</span></h2>
+        <table class="table table-hover">
+            <tr>
+                <th>Patient</th>
+                <th>Exam room</th>
+                <th>Scheduled time</th>
+                <th>Reason</th>
+                <th>Status</th>
+                <th>Action</th>
+                <th>Wait Time</th>
+            </tr>
+
+                {% for appointment in appointments %}
+                    <tr>
+                        <td>{{appointment.patient}}</td>
+                        <td>{{appointment.exam_room}}</td>
+                        <td>{{appointment.scheduled_time.time}}</td>
+                        <td>{{appointment.reason}}</td>
+                        <td>
+                            {% if appointment.status == 'Arrived' %}
+                                <span class="label label-success">{{appointment.status}}</span>
+                            {% elif appointment.status == 'In Session' %}
+                                <span class="label label-warning">{{appointment.status}}</span>
+                            {% elif appointment.status == 'Complete' %}
+                                <span class="label label-primary">{{appointment.status}}</span>
+                            {% elif current_time.time > appointment.scheduled_time.time %}
+                                {% if status == None or status == '' %}
+                                    <span class="label label-danger">No Show</span>
+                                {% endif %}
+                            {% else %}
+                                <span class=""> ------- </span>
+                            {% endif %}
+
+                        </td>
+
+                        <td>
+                            {% if appointment.status == 'Arrived' %}
+
+                                <a class="btn btn-sm" href="{% url 'kiosk:call_in_view' appointment.id %}">
+                                    Call-in </a>
+
+                            {% elif appointment.status == 'In Session' %}
+
+                                <a class="btn btn-sm" href="{% url 'kiosk:mark_completed_view' appointment.id %}">
+                                    End </a>
+                            {% elif appointment.status == 'Complete' or appointment.status == '' or appointment.status == None %}
+
+                                <a class="btn btn-sm" href="{% url 'kiosk:mark_completed_view' appointment.id %}" disabled="">
+                                    {{appointment.status}} </a>
+                            {% endif %}
+
+                        </td>
+
+                    </tr>
+                {% endfor %}
+
+        </table>
+        {% else %}
+            <h2 style="text-align: center;" class="office">You don't have any appointments today.</h2>
+        {% endif %}
+    </div>
+
+    <div class="col-md-offset-4 col-md-4 avg_time jumbotron"
+         style="text-align: center; padding: 10px; background-color:#5BB75B; color: white; margin-top: 20px;">
+        <h2>Avg. Wait</h2>
+        <hr>
+        <span class="time" style="font-size: 60px">{{average_wait_time}}</span>
+        <br>
+        <span class="minutes">Mins.</span>
+    </div>
+{% endblock %}

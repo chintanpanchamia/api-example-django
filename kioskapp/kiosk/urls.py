@@ -18,11 +18,18 @@ urlpatterns = [
 
     url(r'^checkin/$', login_required(views.checkin_view), name='checkin_view'),
 
+    url(r'^mark_checked_in/$', login_required(views.mark_checked_in), name='update_checkin_view'),
+
     url(r'^demographics/(?P<patient_id>[0-9]+)/$',
         login_required(views.DemographicView.as_view()), name='demographic_view'),
 
     url(r'^demographics/$', login_required(views.demographic_init), name='demographic_init'),
 
-    # url(r'^patients-list/$', login_required(views.patients_list), name='patients_view'),
+    url(r'^appointments-list/$', login_required(views.appointments_list_view), name='appointments_list_view'),
+
+    url(r'^call_in_view/(?P<appointment_id>[0-9]+)/$', login_required(views.call_in_view), name='call_in_view'),
+
+    url(r'^mark_completed_view/(?P<appointment_id>[0-9]+)/$', login_required(views.mark_completed_view),
+        name='mark_completed_view')
 ]
 

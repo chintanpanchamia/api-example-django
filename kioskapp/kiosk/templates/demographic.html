@@ -1,13 +1,101 @@
 {% extends 'checkin_base.html' %}
 
 {% block content %}
-    <div class="col-md-offset-2 col-md-8">
-        <div class="kiosk-mode office">
-            <form method="post" action="{% url 'kiosk:demographic_view' patient.id %}">
-                {{csrf_token}}
-                {{form}}
-                <input type="submit" value="Update" class="btn btn-success">
-            </form>
-        </div>
+<div class="col-md-offset-2 col-md-8">
+    <div class="kiosk-mode office">
+        <form method="post" action="{% url 'kiosk:demographic_view' patient.id %}">
+            <input type="hidden" name="_method" value="PATCH">
+
+
+            {% csrf_token %}
+            <label>Address:
+                <input class="field office" type="text" name="address" value="{{ patient.address }}">
+            </label>
+
+            <label>City:
+                <input class="field office" type="text" name="city" value="{{ patient.city }}">
+            </label>
+
+            <label>State:
+                <input class="field office" type="text" name="state" value="{{ patient.state }}">
+            </label>
+            <label>Zip Code
+                <input class="field office" type="text" name="zip_code" value="{{ patient.zip_code }}">
+            </label>
+
+            <label>Email:
+                <input class="field office" type="text" name="email" value="{{ patient.email }}">
+            </label>
+            <label>Home Phone:
+                <input class="field office" type="text" name="home_phone"
+                       value="{{ patient.home_phone }}">
+            </label>
+            <label>Cell Phone:
+                <input class="field office" type="text" name="cell_phone"
+                       value="{{ patient.cell_phone }}">
+            </label>
+
+            <label>Name:
+                <input class="field office" type="text" name="primary_care_physician"
+                       value="{{ patient.primary_care_physician }}">
+            </label>
+
+            <label>Employer Name:
+                <input class="field office" type="text" name="employer"
+                       value="{{ patient.employer }}">
+            </label>
+            <label>Address:
+                <input class="field office" type="text" name="employer_address"
+                       value="{{ patient.employer_address }}">
+            </label>
+            <label>City:
+                <input class="field office" type="text" name="employer_city"
+                       value="{{ patient.employer_city }}">
+            </label>
+            <label>State:
+                <input class="field office" type="text" name="employer_state"
+                       value="{{ patient.employer_state }}">
+            </label>
+            <label>Zip Code:
+                <input class="field office" type="text" name="employer_zip_code"
+                       value="{{ patient.employer_zip_code }}">
+            </label>
+
+            <label>Emergency Contact Name
+                <input class="field office" type="text" name="emergency_contact_name"
+                       value="{{ patient.emergency_contact_name }}">
+            </label>
+            <label>Relation
+                <input class="field office" type="text" name="emergency_contact_relation"
+                       value="{{ patient.emergency_contact_relation }}">
+            </label>
+            <label>Phone Number
+                <input class="field office" type="text" name="emergency_contact_phone"
+                       value="{{ patient.emergency_contact_phone }}">
+            </label>
+
+            <label>Name:
+                <input class="field office" type="text" name="responsible_party_name"
+                       value="{{ patient.responsible_party_name }}">
+            </label>
+            <label>Relation:
+                <input class="field office" type="text" name="responsible_party_relation"
+                       value="{{ patient.responsible_party_relation }}">
+            </label>
+
+            <label>Phone Number:
+                <input class="field office" type="text" name="responsible_party_phone"
+                       value="{{ patient.responsible_party_phone }}">
+            </label>
+            <label>Email:
+                <input class="field office" type="text" name="responsible_party_email"
+                       value="{{ patient.responsible_party_email }}">
+            </label>
+
+            <input type="submit" value="Update" class="btn-lg btn-success">
+            <br>
+            <a class="btn-lg btn-primary" href="{% url 'kiosk:update_checkin_view' %}">Checked In</a>
+        </form>
     </div>
+</div>
 {% endblock %}
