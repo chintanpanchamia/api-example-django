@@ -13,7 +13,6 @@
                 <th>Reason</th>
                 <th>Status</th>
                 <th>Action</th>
-                <th>Wait Time</th>
             </tr>
 
                 {% for appointment in appointments %}
@@ -49,6 +48,7 @@
 
                                 <a class="btn btn-sm" href="{% url 'kiosk:mark_completed_view' appointment.id %}">
                                     End </a>
+
                             {% elif appointment.status == 'Complete' or appointment.status == '' or appointment.status == None %}
 
                                 <a class="btn btn-sm" href="{% url 'kiosk:mark_completed_view' appointment.id %}" disabled="">
@@ -66,11 +66,11 @@
         {% endif %}
     </div>
 
-    <div class="col-md-offset-4 col-md-4 avg_time jumbotron"
+    <div class="col-md-offset-4 col-md-4"
          style="text-align: center; padding: 10px; background-color:#5BB75B; color: white; margin-top: 20px;">
         <h2>Avg. Wait</h2>
         <hr>
-        <span class="time" style="font-size: 60px">{{average_wait_time}}</span>
+        <span class="time" style="font-size: 48px">{{average_wait_time}}</span>
         <br>
         <span class="minutes">Mins.</span>
     </div>

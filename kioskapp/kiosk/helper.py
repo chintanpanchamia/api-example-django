@@ -121,15 +121,16 @@ def verify_patient(form_data):
     try:
         patient = Patient.objects.get(first_name=first_name, last_name=last_name,
                                       social_security_number=social_security_number)
+
     except Patient.DoesNotExist:
-        return 1
+        return None, 1
 
     try:
         appointment = Appointment.objects.get(patient=patient, status='')
     except Appointment.DoesNotExist:
-        return 2
+        return None, 2
 
-    return 0
+    return appointment, 0
 
 
 def get_appointments(doctor, office, access_token):
@@ -164,6 +165,7 @@ def save_appointments(appointments):
             status=appt['status'],
             deleted_flag=appt['deleted_flag'],
             scheduled_time=appt['scheduled_time'],
+            in_room_time=appt['scheduled_time'],
         )
         print appointment
         appointment.save()

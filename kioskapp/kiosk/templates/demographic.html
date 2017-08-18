@@ -1,35 +1,42 @@
 {% extends 'checkin_base.html' %}
 
 {% block content %}
-<div class="col-md-offset-2 col-md-8">
+<div class="col-md-offset-3 col-md-6">
     <div class="kiosk-mode office">
         <form method="post" action="{% url 'kiosk:demographic_view' patient.id %}">
             <input type="hidden" name="_method" value="PATCH">
 
 
             {% csrf_token %}
+            <div>
             <label>Address:
                 <input class="field office" type="text" name="address" value="{{ patient.address }}">
             </label>
-
-            <label>City:
+                <label>City:
                 <input class="field office" type="text" name="city" value="{{ patient.city }}">
             </label>
+            </div>
 
-            <label>State:
+            <div><label>State:
                 <input class="field office" type="text" name="state" value="{{ patient.state }}">
             </label>
             <label>Zip Code
                 <input class="field office" type="text" name="zip_code" value="{{ patient.zip_code }}">
-            </label>
+            </label></div>
 
-            <label>Email:
-                <input class="field office" type="text" name="email" value="{{ patient.email }}">
-            </label>
-            <label>Home Phone:
-                <input class="field office" type="text" name="home_phone"
-                       value="{{ patient.home_phone }}">
-            </label>
+
+            <div>
+                <label>Email:
+                    <input class="field office" type="text" name="email" value="{{ patient.email }}">
+                </label>
+                <label>Home Phone:
+                    <input class="field office" type="text" name="home_phone"
+                           value="{{ patient.home_phone }}">
+                </label>
+
+            </div>
+
+        <div>
             <label>Cell Phone:
                 <input class="field office" type="text" name="cell_phone"
                        value="{{ patient.cell_phone }}">
@@ -40,7 +47,10 @@
                        value="{{ patient.primary_care_physician }}">
             </label>
 
-            <label>Employer Name:
+            </div>
+
+        <div>
+        <label>Employer Name:
                 <input class="field office" type="text" name="employer"
                        value="{{ patient.employer }}">
             </label>
@@ -48,6 +58,8 @@
                 <input class="field office" type="text" name="employer_address"
                        value="{{ patient.employer_address }}">
             </label>
+        </div>
+            <div>
             <label>City:
                 <input class="field office" type="text" name="employer_city"
                        value="{{ patient.employer_city }}">
@@ -56,6 +68,8 @@
                 <input class="field office" type="text" name="employer_state"
                        value="{{ patient.employer_state }}">
             </label>
+                </div>
+        <div>
             <label>Zip Code:
                 <input class="field office" type="text" name="employer_zip_code"
                        value="{{ patient.employer_zip_code }}">
@@ -65,6 +79,8 @@
                 <input class="field office" type="text" name="emergency_contact_name"
                        value="{{ patient.emergency_contact_name }}">
             </label>
+
+            </div>
             <label>Relation
                 <input class="field office" type="text" name="emergency_contact_relation"
                        value="{{ patient.emergency_contact_relation }}">
@@ -91,10 +107,11 @@
                 <input class="field office" type="text" name="responsible_party_email"
                        value="{{ patient.responsible_party_email }}">
             </label>
+            <div>
+                <input type="submit" value="Update" class="btn-lg btn-success">
 
-            <input type="submit" value="Update" class="btn-lg btn-success">
-            <br>
-            <a class="btn-lg btn-primary" href="{% url 'kiosk:update_checkin_view' %}">Checked In</a>
+                <a class="btn-lg btn-primary" href="{% url 'kiosk:update_checkin_view' %}">Done</a>
+            </div>
         </form>
     </div>
 </div>

@@ -110,6 +110,7 @@ font-weight: 200;
 }
 
 .option-panel {
+    margin: 0.5em;
     text-align: center;
     font-size: 2em;
 }

@@ -3,6 +3,8 @@ from django.db import models
 
 import string
 import random
+import datetime
+from django.utils.timezone import now
 
 from django.contrib.auth.models import User
 # Create your models here.
@@ -85,7 +87,7 @@ class Appointment(models.Model):
     deleted_flag = models.BooleanField()
     scheduled_time = models.DateTimeField()
     # some extra fields for arrival and called in time information
-    in_room_time = models.DateTimeField(blank=True, null=True)
+    in_room_time = models.DateTimeField(default=now, null=True)
 
     def __str__(self):
         return ', '.join((str(self.scheduled_time), self.patient.last_name, self.patient.first_name))

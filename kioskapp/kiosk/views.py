@@ -10,7 +10,7 @@ from django.contrib.auth.models import User
 from django.utils.http import urlquote
 from kiosk_auth_data import CLIENT
 import requests
-from datetime import datetime
+import datetime
 
 from helper import get_drchrono_user, get_appointments, verify_patient, patch_appointment
 from models import Appointment, Doctor, Patient, Office
@@ -55,6 +55,7 @@ def login_error_view(request):
 
 def logout_view(request):
     # Appointment.objects.all().delete()
+    print datetime.datetime.now()
     logout(request)
     return redirect('kiosk:login_view')
 
@@ -70,7 +71,7 @@ def setup_kiosk(request):
 
 def appointments_list_view(request):
     appointments = Appointment.objects.all()
-    current_time = datetime.now()
+    current_time = datetime.datetime.now()
     total_wait_time = 0
     count_appointments = 0
     average_wait_time = 0
@@ -78,8 +79,9 @@ def appointments_list_view(request):
     averaging_appointments = appointments.filter(status='Complete')
     for appointment in averaging_appointments:
         wait_time = appointment.in_room_time - appointment.scheduled_time
-        total_wait_time += wait_time.total_seconds()/60
-        count_appointments += 1
+        if wait_time.seconds//60 > 0:
+            total_wait_time += wait_time.total_seconds()/60
+            count_appointments += 1
 
     if count_appointments > 0:
         average_wait_time = total_wait_time/count_appointments
@@ -88,6 +90,7 @@ def appointments_list_view(request):
         'appointments': appointments,
         'current_time': current_time,
         'average_wait_time': average_wait_time,
+        'doctor': request.user.doctor,
     }
 
     return render(request, 'appointment_list.html', context)
@@ -111,7 +114,7 @@ def checkin_view(request):
         social_security_number = checkin_form.cleaned_data['social_security_number']
 
         form_data = {'first_name': first_name, 'last_name': last_name, 'social_security_number': social_security_number}
-        result = verify_patient(form_data)
+        result_type, result = verify_patient(form_data)
 
         if result == 0:
             p = Patient.objects.get(social_security_number=social_security_number)
@@ -173,7 +176,7 @@ class DemographicView(generic.DetailView):
 # for updating status of the closest appointment of the said patient
 def mark_checked_in(request):
     patient_id = request.session['p_id']['patient_id']
-    checked_in_patient_appointments = Appointment.objects.filter(patient=patient_id)
+    checked_in_patient_appointments = Appointment.objects.filter(patient=patient_id, status='')
     appointment = checked_in_patient_appointments[0]
     status = 'Arrived'
     appointment.status = status
@@ -200,7 +203,7 @@ def call_in_view(request, appointment_id):
     status = 'In Session'
     appointment.status = status
     appointment.save()
-    appointment.in_room_time = datetime.now()
+    appointment.in_room_time = datetime.datetime.now()
     patch_appointment(request, appointment_id, status)
 
     return redirect('kiosk:appointments_list_view')
