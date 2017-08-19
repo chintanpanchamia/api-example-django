@@ -30,6 +30,7 @@ urlpatterns = [
     url(r'^call_in_view/(?P<appointment_id>[0-9]+)/$', login_required(views.call_in_view), name='call_in_view'),
 
     url(r'^mark_completed_view/(?P<appointment_id>[0-9]+)/$', login_required(views.mark_completed_view),
-        name='mark_completed_view')
-]
+        name='mark_completed_view'),
 
+    url(r'^kiosk_code/$', login_required(views.set_kiosk_code), name='set_kiosk_code'),
+]

@@ -15,6 +15,8 @@ import datetime
 from helper import get_drchrono_user, get_appointments, verify_patient, patch_appointment
 from models import Appointment, Doctor, Patient, Office
 from forms import CheckinForm, DemographicForm
+
+
 # Create your views here.
 
 
@@ -79,12 +81,12 @@ def appointments_list_view(request):
     averaging_appointments = appointments.filter(status='Complete')
     for appointment in averaging_appointments:
         wait_time = appointment.in_room_time - appointment.scheduled_time
-        if wait_time.seconds//60 > 0:
-            total_wait_time += wait_time.total_seconds()/60
+        if wait_time.seconds // 60 > 0:
+            total_wait_time += wait_time.total_seconds() / 60
             count_appointments += 1
 
     if count_appointments > 0:
-        average_wait_time = total_wait_time/count_appointments
+        average_wait_time = total_wait_time / count_appointments
 
     context = {
         'appointments': appointments,
@@ -160,13 +162,13 @@ class DemographicView(generic.DetailView):
         url = 'https://drchrono.com/api/patients/%s' % patient_id
         token = request.user.doctor.token
         header = {'Authorization': 'Bearer %s' % token}
-        # print request.POST, '\n\n'
+
         temp = dict(request.POST.iterlists())
         temp.pop('csrfmiddlewaretoken')
         response = requests.patch(
             url=url, data=temp, headers=header
         )
-        print response
+
         try:
             response.raise_for_status()
         except:
@@ -207,3 +209,25 @@ def call_in_view(request, appointment_id):
     patch_appointment(request, appointment_id, status)
 
     return redirect('kiosk:appointments_list_view')
+
+
+"""
+Additional features
+"""
+
+
+def set_kiosk_code(request):
+    if request.method == 'POST':
+        if request.POST['_method'] == 'SET':
+            kiosk_code = request.POST['kiosk_code']
+            doctor = request.user.doctor
+            doctor.kiosk_code = kiosk_code
+            doctor.save()
+            return redirect('kiosk:checkin_view')
+
+        if request.POST['_method'] == 'VERIFY':
+            kiosk_code = request.user.doctor.kiosk_code
+            if request.POST['kiosk_code'] == kiosk_code:
+                return redirect('kiosk:index_view')
+            else:
+                return redirect(str(request.POST['_get']))

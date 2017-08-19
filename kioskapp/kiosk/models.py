@@ -7,6 +7,8 @@ import datetime
 from django.utils.timezone import now
 
 from django.contrib.auth.models import User
+
+
 # Create your models here.
 
 
@@ -72,7 +74,6 @@ class Office(models.Model):
     zip_code = models.CharField(max_length=6)
 
     def __str__(self):
-
         return ', '.join((self.address, self.city, ' '.join((self.state, self.zip_code)), self.country))
 
 
@@ -94,7 +95,3 @@ class Appointment(models.Model):
 
     class Meta:
         ordering = ['scheduled_time']
-
-
-
-
