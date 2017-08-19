@@ -56,7 +56,7 @@ def login_error_view(request):
 
 
 def logout_view(request):
-    # Appointment.objects.all().delete()
+    Appointment.objects.all().delete()
     print datetime.datetime.now()
     logout(request)
     return redirect('kiosk:login_view')
@@ -212,7 +212,7 @@ def call_in_view(request, appointment_id):
 
 
 """
-Additional features
+Additional features: Kiosk Locking
 """
 
 
